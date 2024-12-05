@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import permission_required
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 import datetime
 
 from .forms import RenewBookForm
@@ -71,7 +70,7 @@ class LoanedBooksByStaffListView(PermissionRequiredMixin,generic.ListView):
     permission_required = 'catalog.can_mark_returned'
 
     def get_queryset(self):
-        return (BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back'))
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
 
 
 
@@ -115,3 +114,19 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+
+class BookCreate(CreateView):
+    model = Book
+    fields = '__all__'
+
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = '__all__'
+
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
+
