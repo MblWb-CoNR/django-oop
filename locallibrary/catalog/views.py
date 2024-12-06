@@ -22,10 +22,8 @@ def index(request):
     num_books_title = Book.objects.filter(title__icontains='души').count()
     num_authors = Author.objects.count()
     num_genre = Genre.objects.all().count()
-
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
-
 
     return render(
         request,
@@ -39,7 +37,7 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 2
+    paginate_by = 10
 
 
 class BookDetailView(generic.DetailView):
@@ -130,3 +128,10 @@ class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
 
+
+def calculate_total(request):
+    if request.method == 'POST':
+        selected_books = request.POST.getlist('selected_books')
+        total_price = sum(int(price) for price in selected_books)
+
+        return render(request, 'catalog/book_list.html', {'total_price': total_price})

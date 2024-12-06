@@ -8,6 +8,12 @@
   <p><strong>ISBN:</strong> {{ book.isbn }}</p>
   <p><strong>Язык:</strong> {{ book.language }}</p>
   <p><strong>Жанр:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <p>___________________</p>
+  <p><strong>Цена:</strong> {{ book.price }}</p>
+
+  <form action="">
+    <button type="submit">Заказать</button>
+  </form>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Копии</h4>
